@@ -7,6 +7,7 @@ import me.rhys.base.event.impl.network.PacketEvent;
 import me.rhys.base.module.Module;
 import me.rhys.base.module.data.Category;
 import me.rhys.base.module.setting.manifest.Name;
+import me.rhys.client.module.combat.velocity.modes.Reverse;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
@@ -20,6 +21,7 @@ public class Velocity extends Module {
     public Velocity(String name, String description, Category category, int keyCode) {
         super(name, description, category, keyCode);
         add(new Normal("Normal", this));
+        add(new Reverse("Reverse", this));
     }
 
     @EventTarget
