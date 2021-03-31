@@ -18,6 +18,7 @@ public class Single extends ModuleMode<Aura> {
 
     @EventTarget
     void onUpdate(PlayerUpdateEvent event) {
+        System.out.println("Update doing something");
         if (parent.lockView && parent.target != null) {
             Vec2f rotation = RotationUtil.getRotations(parent.target);
             if(parent.currentRotation == null) parent
@@ -44,6 +45,7 @@ public class Single extends ModuleMode<Aura> {
 
     @EventTarget
     void onMotion(PlayerMotionEvent event) {
+        System.out.println("Motion doing something");
         if (parent.target != null && event.getType() == (!parent.post ? Event.Type.PRE : Event.Type.POST)) {
             parent.swing(parent.target);
 
