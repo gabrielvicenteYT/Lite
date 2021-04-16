@@ -479,6 +479,15 @@ public class EntityPlayerSP extends AbstractClientPlayer {
     }
 
     /**
+     * Mouse delay fix
+     * @param partialTicks
+     * @return
+     */
+    public Vec3 getLook(float partialTicks) {
+        return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);
+    }
+
+    /**
      * set current crafting inventory back to the 2x2 square
      */
     public void closeScreen() {

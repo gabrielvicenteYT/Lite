@@ -21,7 +21,10 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -49,6 +52,9 @@ public class Aura extends Module {
 
     @Name("Post")
     public boolean post = false;
+
+    @Name("Block")
+    public boolean block = true;
 
     @Name("Monsters")
     public boolean monsters = false;
@@ -158,6 +164,21 @@ public class Aura extends Module {
             return false;
 
         return monsters || entity instanceof EntityPlayer;
+    }
+
+    public boolean sendUseItem() {
+        if (block && mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+            mc.playerController.syncCurrentPlayItem();
+            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+            ItemStack itemstack = mc.thePlayer.getHeldItem().useItemRightClick(mc.theWorld, mc.thePlayer);
+            if (itemstack != mc.thePlayer.getHeldItem() || itemstack != null) {
+                mc.thePlayer.inventory.mainInventory[mc.thePlayer.inventory.currentItem] = itemstack;
+                if (itemstack.stackSize == 0)
+                    mc.thePlayer.inventory.mainInventory[mc.thePlayer.inventory.currentItem] = null;
+            }
+            return true;
+        }
+        return false;
     }
 
     public void doCritical() {

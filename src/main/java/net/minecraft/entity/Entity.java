@@ -16,6 +16,7 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
@@ -2106,6 +2107,8 @@ public abstract class Entity implements ICommandSender
         this.motionX = x;
         this.motionY = y;
         this.motionZ = z;
+        //Minecraft.getMinecraft().thePlayer.sendMessage(String.format("Set Velocity: x=%.4f y=%.4f z=%.4f",
+        //        motionX, motionY, motionZ));
     }
 
     public void handleStatusUpdate(byte id)

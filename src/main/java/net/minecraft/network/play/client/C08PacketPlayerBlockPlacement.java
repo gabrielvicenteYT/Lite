@@ -1,6 +1,9 @@
 package net.minecraft.network.play.client;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
+
+import me.rhys.client.module.combat.aura.Aura;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;

@@ -1651,6 +1651,10 @@ public abstract class EntityLivingBase extends Entity
                         }
                     }
 
+                    /*if(motionY > 0) {
+                        Minecraft.getMinecraft().thePlayer.sendMessage(String.format("x=%.4f y=%.4f z=%.4f",
+                                motionX, motionY, motionZ));
+                    }*/
                     this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
                     if (this.isCollidedHorizontally && this.isOnLadder())
