@@ -49,7 +49,8 @@ public class Manager {
                 new PluginsCommand("plugins", "shows you the servers plugins"),
                 new FriendCommand("friend", "friend add / remove <name>, list",
                         "if you have friends..", "f"),
-                new VClip("vclip", "teleport through blocks", "vc")
+                new VClip("vclip", "teleport through blocks", "vc"),
+                new TimerCommand("timer", "timer <speed>", "modify timer speed")
         );
     }
 

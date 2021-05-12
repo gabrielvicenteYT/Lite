@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import com.github.creeper123123321.viafabric.ViaFabric;
 import me.rhys.base.Lite;
 import me.rhys.base.event.Event;
 import me.rhys.base.event.impl.player.*;
@@ -29,6 +30,7 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+import us.myles.ViaVersion.ViaVersionPlugin;
 
 public class EntityPlayerSP extends AbstractClientPlayer {
     public final NetHandlerPlayClient sendQueue;
@@ -391,7 +393,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, y, this.posZ, this.onGround));
                 } else if (flag3) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(yaw, pitch, this.onGround));
-                } else {
+                } else if(ViaFabric.clientSideVersion <= 47) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer(this.onGround));
                 }
             } else {

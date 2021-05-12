@@ -16,6 +16,7 @@ public class Fly extends Module {
         super(name, description, category, keyCode);
 
         add(new Vanilla("Vanilla", this));
+        add(new CubeCraft("CubeCraft", this));
     }
 
 
