@@ -12,8 +12,8 @@ public class TimerCommand extends Command {
 
     @Override
     public boolean handle(EntityPlayerSP player, String label, String[] args) {
+        final Timer timer = (Timer) Lite.MODULE_FACTORY.findByClass(Timer.class);
         if(args != null && args.length > 0) {
-            Timer timer = (Timer) Lite.MODULE_FACTORY.findByClass(Timer.class);
 
             if(timer != null) {
                 try {
@@ -23,9 +23,10 @@ public class TimerCommand extends Command {
                     player.sendMessage("Error in formatting of (not a double): \"" + args[0] + "\"");
                     e.printStackTrace();
                 }
-                return true;
             }
+        } else {
+            player.sendMessage(String.format("Timer Speed: %.2f", timer.timerSpeed));
         }
-        return false;
+        return true;
     }
 }

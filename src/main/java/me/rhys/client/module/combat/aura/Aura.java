@@ -1,6 +1,7 @@
 package me.rhys.client.module.combat.aura;
 
 import me.rhys.base.Lite;
+import me.rhys.base.event.Event;
 import me.rhys.base.event.data.EventTarget;
 import me.rhys.base.event.impl.player.PlayerMotionEvent;
 import me.rhys.base.event.impl.player.PlayerUpdateEvent;
@@ -35,6 +36,19 @@ public class Aura extends Module {
         add(new Single("Single", this));
     }
 
+    @Name("Event Type")
+    public Event.Type eventType = Event.Type.PRE;
+
+    @Name("Target Priority")
+    public TargetPriority targetPriority = TargetPriority.DISTANCE;
+
+    @Name("Crack Type")
+    public CrackType crackType = CrackType.NORMAL;
+
+    @Name("Crack Size")
+    @Clamp(min = 1, max = 20)
+    public int crackSize = 4;
+
     @Name("CPS")
     @Clamp(min = 1, max = 20)
     public double cps = 15;
@@ -50,8 +64,8 @@ public class Aura extends Module {
     @Name("RayCheck")
     public boolean rayCheck = true;
 
-    @Name("Post")
-    public boolean post = false;
+    @Name("Do Aim")
+    public boolean doAim = true;
 
     @Name("Block")
     public boolean block = true;
@@ -76,13 +90,6 @@ public class Aura extends Module {
 
     @Name("Crack")
     public boolean crack = false;
-
-    @Name("Crack Type")
-    public CrackType crackType = CrackType.NORMAL;
-
-    @Name("Crack Size")
-    @Clamp(min = 1, max = 20)
-    public int crackSize = 4;
 
     public EntityLivingBase target;
 
@@ -114,14 +121,39 @@ public class Aura extends Module {
     }
 
     public EntityLivingBase findTarget() {
+        EntityLivingBase currentTarget = null;
+        double currentDistance = 0;
         for (Entity entity : mc.theWorld.loadedEntityList) {
             if (entity != null) {
                 if (!this.isEntityValid(entity) || !(entity instanceof EntityLivingBase)) continue;
 
-                return (EntityLivingBase) entity;
+                EntityLivingBase target = (EntityLivingBase) entity;
+
+                if(currentTarget != null) {
+                    switch (targetPriority) {
+                        case HEALTH: {
+                            if (target.getHealth() > currentTarget.getHealth())
+                                currentTarget = target;
+                                break;
+                        }
+                        case DISTANCE: {
+                            if(target.getDistanceToEntity(mc.thePlayer) < currentDistance) {
+                                currentTarget = target;
+                                currentDistance = currentTarget.getDistanceToEntity(mc.thePlayer);
+                            }
+                            break;
+                        }
+                        default:
+                            return target;
+                    }
+                } else {
+                    currentTarget = target;
+                    if(targetPriority == TargetPriority.DISTANCE) //So we don't unecessarily do distance checks
+                        currentDistance = currentTarget.getDistanceToEntity(mc.thePlayer);
+                }
             }
         }
-        return null;
+        return currentTarget;
     }
 
     private boolean isEntityValid(Entity entity) {
@@ -235,5 +267,11 @@ public class Aura extends Module {
     public enum CrackType {
         ENCHANT,
         NORMAL
+    }
+
+    public enum TargetPriority {
+        HEALTH,
+        DISTANCE,
+        NONE;
     }
 }

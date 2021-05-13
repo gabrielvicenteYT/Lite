@@ -5,6 +5,7 @@ import me.rhys.base.module.Module;
 import me.rhys.base.module.data.Category;
 import me.rhys.base.module.setting.manifest.Clamp;
 import me.rhys.base.module.setting.manifest.Name;
+import me.rhys.client.module.movement.step.modes.NCP;
 
 /**
  * Created on 07/09/2020 Package me.rhys.client.module.movement.step
@@ -18,6 +19,7 @@ public class Step extends Module {
     public Step(String name, String description, Category category, int keyCode) {
         super(name, description, category, keyCode);
         add(new Instant("Instant", this));
+        add(new NCP("NCP", this));
     }
 
     public float getNeededStepHeight() {
